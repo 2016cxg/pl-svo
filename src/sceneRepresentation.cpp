@@ -27,8 +27,6 @@
 
 #include <plsvo/sceneRepresentation.h>
 
-#include <iostream>
-
 // Constructors and destructor
 
 sceneRepresentation::sceneRepresentation(){
@@ -115,7 +113,6 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
     win->setCameraAzimuthDeg(sazim);
     win->setCameraZoom(szoom);
     theScene = win->get3DSceneAndLock();
-    std::cout<<"Initialize the scene and window succeed"<<std::endl ;
 
     // Initialize poses of different objects
     if(hasChange)
@@ -131,7 +128,6 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
     pose.getAsVector(v_aux);
     pose1.getAsVector(v_aux1);
     pose_gt.getAsVector(v_auxgt);
-    std::cout<<"Initialize poses of different objects succeed"<<std::endl ;
 
     // Initialize the camera object
     //bbObj  = stock_objects::BumblebeeCamera();
@@ -164,7 +160,6 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
             theScene->insert(frustObj1);
         }
     }
-    std::cout<<"Initialize the camera object succeed"<<std::endl ;
 
     // Initialize the axes
     if(hasAxes){
@@ -174,7 +169,6 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
         axesObj->setAxisLimits(-saxis,-saxis,-saxis, saxis,saxis,saxis);
         theScene->insert( axesObj );
     }
-    std::cout<<"Initialize the axes succeed"<<std::endl ;
 
     // Initialize the ground truth camera object
     if(hasGT){
@@ -191,7 +185,6 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
             theScene->insert(srefObjGT);
         }
     }
-    std::cout<<"Initialize the ground truth camera object succeed"<<std::endl ;
 
     // Initialize a second camera to compare when changing parameters
     if(hasComparison){
@@ -210,33 +203,28 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
             theScene->insert(srefObj1);
         }
     }
-    std::cout<<"Initialize a second camera to compare when changing parameters succeed"<<std::endl ;
 
     // Initialize the text
     if(hasText){
         string text = "Frame: \t \t0 \nFrequency: \t0 Hz \nLines:  \t0 (0)\nPoints: \t0 (0)";
         win->addTextMessage(0.85,0.95, text, TColorf(1.0,1.0,1.0), 0, MRPT_GLUT_BITMAP_HELVETICA_10 );
     }
-    std::cout<<"Initialize the text succeed"<<std::endl ;
 
     // Initialize the lines
     lineObj = CSetOfLines::Create();
     lineObj->setLineWidth(1.0);
     lineObj->setColor(0,0,0);
     theScene->insert( lineObj );
-    std::cout<<"Initialize the lines succeed"<<std::endl ;
     
     // Initialize the point cloud
     pointObj = CPointCloud::Create();
     pointObj->setPointSize(3.0);
     pointObj->setColor(0,0,0);
     theScene->insert( pointObj );
-    std::cout<<"Initialize the point cloud succeed"<<std::endl ;
 
     // Initialize the viewports
     setHelp();
     setLegend();
-    std::cout<<"Initialize the viewports succeed"<<std::endl ;
 
     image = theScene->createViewport("image");
     if(isKitti){
@@ -251,19 +239,16 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
         else
             image->setViewportPosition(2000, 2000, 640, 480);
     }
- 
     
-    std::cout<<"Going through bugs"<<std::endl; 
     // BUG: i cannot check if CImage is empty
     if(hasImg){
         img_mrpt_image.loadFromFile("./empty_img.png",1);
     }
-    std::cout<<"Going out of bugs" <<std::endl ;
 
     // Re-paint the scene
     win->unlockAccess3DScene();
     win->repaint();
-    std::cout<<"Re-paint the scene"<<std::endl ;
+
 }
 
 // Update the scene

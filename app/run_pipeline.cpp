@@ -324,8 +324,6 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
     string map_out     = opts.map_out;
     string traj_out    = opts.traj_out;
     int fps_           = 30;
-//    string empty_image = "./empty_img.png" ;
-//  string empty_image = "/media/cheng/WRK/Backup/2019/Academy/Paper/origin/pl-svo/datasets/image1/images/frame_000002_0.png" ;
 
     // Read content of the .yaml dataset configuration file
     YAML::Node dset_config = YAML::LoadFile(dataset_dir+"/dataset_params.yaml");
@@ -384,7 +382,6 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
     sceneRepresentation scene("../app/scene_config.ini");
     Matrix<double,4,4> T_c_w, T_f_w = Matrix<double,4,4>::Identity(), T_f_w_prev = Matrix<double,4,4>::Identity(), T_inc;
     T_c_w = Matrix<double,4,4>::Identity();
-//
     scene.initializeScene(T_f_w);
 
     // run SVO (pose estimation)
@@ -432,9 +429,6 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
                     if (! ((1.e-16 < fabs(cov(i,j))) && (fabs(cov(i,j)) < 1.e+16)) )    // likely an invalid pose -> seriously?
                         skip_frame = true;
 
-/**/
-	    std::cout<<"=====================In Camera==========="<<std::endl ;
-
             // access the pose of the camera via vo_->lastFrame()->T_f_w_.
             Sophus::SE3 world_transf = vo_->lastFrame()->T_f_w_.inverse();
             Eigen::Quaterniond quat  = world_transf.unit_quaternion();
@@ -466,7 +460,7 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
             if( !dbg_img.empty() )
                 scene.setImage( dbg_img );
             else
-                scene.setImage( "./empty_img.png" );
+                scene.setImage("./empty_img.png");
 
             // introduce 3d features to the scene
             vector< Matrix<double,3,1> > points3d;
@@ -486,12 +480,10 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
                 lines3d.push_back( line3d_ );
               }
             }
-//            
-		scene.setLinesSVO(lines3d);
+            scene.setLinesSVO(lines3d);
 
             // update scene
-//            
-		scene.updateScene();
+            scene.updateScene();
 
         }
         frame_counter++;
@@ -719,8 +711,6 @@ const cv::String keys =
 
 int main(int argc, char** argv)
 {
-/**/ 
-    std::cout<<"=========Test 1 =========="<<std::endl ;
 
     cv::CommandLineParser parser(argc, argv, keys);
     parser.about("SVO test: run_pipeline");
@@ -768,10 +758,6 @@ int main(int argc, char** argv)
     }
     std::string dataset_dir( std::getenv("DATASETS_DIR") + dataset_name );
     opts.dataset_dir = dataset_dir;
-
-/**/ 
-    std::cout<<"=========dataset_dir =========="<<dataset_dir<<std::endl ;
-
 
     // Read content of the .yaml dataset configuration file
     YAML::Node dset_config = YAML::LoadFile(dataset_dir+"/dataset_params.yaml");
