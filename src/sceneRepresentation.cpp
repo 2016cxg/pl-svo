@@ -226,6 +226,8 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
     setHelp();
     setLegend();
 
+    std::cout<<"-------------"<<std::endl; 
+
     image = theScene->createViewport("image");
     if(isKitti){
         if(hasImg)
@@ -258,31 +260,42 @@ bool sceneRepresentation::updateScene(){
     theScene = win->get3DSceneAndLock();
     bool restart = false;
 
+    std::cout<<"============Test 7-1========="<<std::endl ;
+
     // Update camera pose
     CPose3D x_aux(getPoseFormat(x));
+
+    std::cout<<"============Test 7-1-1-2========="<<std::endl ;
     pose = pose + x_aux;
-    v_aux_ = v_aux;
+    std::cout<<"============Test 7-1-1-3========="<<std::endl ;
+//    v_aux_ = v_aux;
+    std::cout<<"============Test 7-1-1-1========="<<std::endl ;
     pose.getAsVector(v_aux);
+    std::cout<<"============Test 7-1-1========="<<std::endl ;
     if(hasTraj){
         CSimpleLinePtr obj = CSimpleLine::Create();
-        obj->setLineCoords(v_aux_(0),v_aux_(1),v_aux_(2), v_aux(0),v_aux(1),v_aux(2));
+ //       obj->setLineCoords(v_aux_(0),v_aux_(1),v_aux_(2), v_aux(0),v_aux(1),v_aux(2));
+        obj->setLineCoords(v_aux(0),v_aux(1),v_aux(2), v_aux(0),v_aux(1),v_aux(2));
         obj->setLineWidth(sline);
         obj->setColor(0,0,0.7);
         theScene->insert( obj );
     }
+    std::cout<<"============Test 7-1-2========="<<std::endl ;
     bbObj->setPose(pose+frustumL_);
     srefObj->setPose(pose);
+    std::cout<<"============Test 7-1-3========="<<std::endl ;
     if(hasFrustum){
         frustObj->setPose(pose+frustumL_);
         frustObj1->setPose(pose+frustumR_);
     }
+    std::cout<<"============Test 7-2========="<<std::endl ;
 
     // Update the GT camera pose
     if(hasGT){
         CPose3D x_auxgt(getPoseFormat(xgt));
         //pose_gt = pose_gt + x_auxgt;
         pose_gt = x_auxgt;
-        v_auxgt_ = v_auxgt;
+//        v_auxgt_ = v_auxgt;
 
         pose_gt.getAsVector(v_auxgt);
         float y_ = v_auxgt(1);
@@ -297,7 +310,7 @@ bool sceneRepresentation::updateScene(){
 
         if(hasTraj){
             CSimpleLinePtr obj = CSimpleLine::Create();
-            obj->setLineCoords(v_auxgt_(0),v_auxgt_(1),v_auxgt_(2), v_auxgt(0),v_auxgt(1),v_auxgt(2));
+            obj->setLineCoords(v_auxgt(0),v_auxgt(1),v_auxgt(2), v_auxgt(0),v_auxgt(1),v_auxgt(2));
             obj->setLineWidth(sline);
             obj->setColor(0,0,0);
             theScene->insert( obj );
@@ -305,16 +318,17 @@ bool sceneRepresentation::updateScene(){
         gtObj->setPose(pose_gt);
         srefObjGT->setPose(pose_gt);
     }
+    std::cout<<"============Test 7-3========="<<std::endl ;
 
     // Update the comparison camera pose
     if(hasComparison){
         CPose3D x_aux1(getPoseFormat(xcomp));
         pose1 = pose1 + x_aux1;
-        v_aux1_ = v_aux1;
+ //       v_aux1_ = v_aux1;
         pose1.getAsVector(v_aux1);
         if(hasTraj){
             CSimpleLinePtr obj = CSimpleLine::Create();
-            obj->setLineCoords(v_aux1_(0),v_aux1_(1),v_aux1_(2), v_aux1(0),v_aux1(1),v_aux1(2));
+            obj->setLineCoords(v_aux1(0),v_aux1(1),v_aux1(2), v_aux1(0),v_aux1(1),v_aux1(2));
             obj->setLineWidth(sline);
             obj->setColor(0,0.7,0);
             theScene->insert( obj );
@@ -322,18 +336,21 @@ bool sceneRepresentation::updateScene(){
         bbObj1->setPose(pose1+frustumL_);
         srefObj1->setPose(pose1);
     }
+    std::cout<<"============Test 7-4========="<<std::endl ;
 
     // Update the text
     if(hasText){
         string text = "Frame: \t \t" + to_string(frame) + " \n" + "Frequency: \t" + to_string_with_precision(1000.f/time,4) + " Hz \n" + "Lines:  \t" + to_string(nLines) + " (" + to_string(nLinesH) + ") \nPoints: \t" + to_string(nPoints) + " (" + to_string(nPointsH) + ")";
         win->addTextMessage(0.85,0.95, text, TColorf(1.0,1.0,1.0), 0, MRPT_GLUT_BITMAP_HELVETICA_10 );
     }
+    std::cout<<"============Test 7-5========="<<std::endl ;
 
     // Update the image
     if(hasImg){
         //image->setImageView_fast( img_mrpt_image );
         image->setImageView( img_mrpt_image );
     }
+    std::cout<<"============Test 7-6========="<<std::endl ;
 
     // Update the lines
     lineObj->clear();
@@ -342,6 +359,7 @@ bool sceneRepresentation::updateScene(){
             lineObj->appendLine((*it)(0),(*it)(1),(*it)(2),(*it)(3),(*it)(4),(*it)(5));
         lineObj->setPose(pose_0);
     }
+    std::cout<<"============Test 7-7========="<<std::endl ;
 
     // Update the points
     pointObj->clear();
@@ -350,10 +368,12 @@ bool sceneRepresentation::updateScene(){
             pointObj->insertPoint( (*it)(0),(*it)(1),(*it)(2) );
         pointObj->setPose(pose_0);
     }
+    std::cout<<"============Test 7-8========="<<std::endl ;
 
     // Re-paint the scene
     win->unlockAccess3DScene();
     win->repaint();
+    std::cout<<"============Test 7-9========="<<std::endl ;
 
     // Key events   -       TODO: change the trick to employ viewports
     if(win->keyHit()){       
@@ -486,6 +506,7 @@ bool sceneRepresentation::updateScene(){
 
         }
     }
+    std::cout<<"============Test 7-10========="<<std::endl ;
 
     return restart;
 
