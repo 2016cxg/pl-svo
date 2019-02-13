@@ -36,15 +36,21 @@ ENDIF()
 SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3 -fsee -fomit-frame-pointer -fno-signed-zeros -fno-math-errno -funroll-loops")
 
 # Add plain cmake packages 
-FIND_PACKAGE(OpenCV 3 REQUIRED)
+FIND_PACKAGE(OpenCV 4 REQUIRED)
+message( "OpenCV " ${OpenCV_INCLUDE_DIRS} )
 FIND_PACKAGE(Eigen3 REQUIRED)
+message( "Eigen3 " ${Eigen3_INCLUDE_DIRS} )
 FIND_PACKAGE(Sophus REQUIRED)
+message( "Sophus_INCLUDE_DIRS: ", ${Sophus_INCLUDE_DIRS} )
 FIND_PACKAGE(fast REQUIRED)
+message( "fast: " ${fast_INCLUDE_DIRS} )
 FIND_PACKAGE(Boost REQUIRED COMPONENTS thread system filesystem)
+message( "Boost " ${Boost_INCLUDE_DIRS} )
 
 IF(HAVE_MRPT)
     SET(MRPT_DONT_USE_DBG_LIBS 1) #use release libraries for linking even if "Debug" CMake build
     FIND_PACKAGE(MRPT REQUIRED base opengl gui)
+    message( "MRPT_LIBS: " ${MRPT_LIBS} )
 ENDIF()
 
 FIND_LIBRARY(YAML_CPP_LIBRARIES yaml-cpp)
@@ -55,6 +61,7 @@ if(NOT YAML_CPP_LIBRARIES)
 endif(NOT YAML_CPP_LIBRARIES)
 
 FIND_PACKAGE(vikit_common REQUIRED)
+message( "vikit_common_INCLUDE_DIRS: " ${vikit_common_INCLUDE_DIRS} )
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
@@ -73,11 +80,11 @@ INCLUDE_DIRECTORIES(
 # Set link libraries
 LIST(APPEND LINK_LIBS 
   ${OpenCV_LIBS}
-  #${Sophus_LIBRARIES}
+  ${Sophus_LIBRARIES}
   ${Boost_LIBRARIES}
   ${fast_LIBRARIES}
   ${YAML_CPP_LIBRARIES}
-  ~/libs/Sophus/build/libSophus.so
+  #~/libs/Sophus/build/libSophus.so
   ${PROJECT_SOURCE_DIR}/3rdparty/line_descriptor/lib/liblinedesc.so
 )
 
