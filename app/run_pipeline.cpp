@@ -324,7 +324,7 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
     string map_out     = opts.map_out;
     string traj_out    = opts.traj_out;
     int fps_           = 30;
-    string empty_image = "./empty_img.png" ;
+//    string empty_image = "./empty_img.png" ;
 //  string empty_image = "/media/cheng/WRK/Backup/2019/Academy/Paper/origin/pl-svo/datasets/image1/images/frame_000002_0.png" ;
 
     // Read content of the .yaml dataset configuration file
@@ -466,7 +466,7 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
             if( !dbg_img.empty() )
                 scene.setImage( dbg_img );
             else
-                scene.setImage( empty_image );
+                scene.setImage( "./empty_img.png" );
 
             // introduce 3d features to the scene
             vector< Matrix<double,3,1> > points3d;

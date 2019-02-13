@@ -258,7 +258,7 @@ void sceneRepresentation::initializeScene(Matrix<double,4,4> x_0){
     if(hasImg){
         img_mrpt_image.loadFromFile("./empty_img.png",1);
     }
-    std::cout<<"Going out of bugs"
+    std::cout<<"Going out of bugs" ;
 
     // Re-paint the scene
     win->unlockAccess3DScene();
