@@ -324,8 +324,8 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
     string map_out     = opts.map_out;
     string traj_out    = opts.traj_out;
     int fps_           = 30;
-//    string empty_image = "./empty_img.png"
-    string empty_image = "/media/cheng/WRK/Backup/2019/Academy/Paper/origin/pl-svo/datasets/image1/images/frame_000002_0.png" ;
+    string empty_image = "./empty_img.png" ;
+//  string empty_image = "/media/cheng/WRK/Backup/2019/Academy/Paper/origin/pl-svo/datasets/image1/images/frame_000002_0.png" ;
 
     // Read content of the .yaml dataset configuration file
     YAML::Node dset_config = YAML::LoadFile(dataset_dir+"/dataset_params.yaml");
@@ -385,7 +385,7 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
     Matrix<double,4,4> T_c_w, T_f_w = Matrix<double,4,4>::Identity(), T_f_w_prev = Matrix<double,4,4>::Identity(), T_inc;
     T_c_w = Matrix<double,4,4>::Identity();
 //
-//    scene.initializeScene(T_f_w);
+    scene.initializeScene(T_f_w);
 
     // run SVO (pose estimation)
     std::list<FramePtr> frames;
