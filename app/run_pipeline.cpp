@@ -384,6 +384,8 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
     T_c_w = Matrix<double,4,4>::Identity();
     scene.initializeScene(T_f_w);
 
+    std::cout<<"============Test 1========="<<std::endl ;
+
     // run SVO (pose estimation)
     std::list<FramePtr> frames;
     int frame_counter = 1;
@@ -405,6 +407,8 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
             cv::flip(img, img, 0); // Vertical flipping (around x axis, changes y coordinate)
         }
         assert(!img.empty());
+
+        std::cout<<"============Test 2========="<<std::endl ;
 
         // undistort image
         cv::Mat img_rec;
@@ -457,10 +461,15 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
             scene.setPose( T_inc );
             scene.setText( vo_->lastFrame()->id_, vo_->lastProcessingTime()*1000, vo_->lastNumPtObservations(), 0, vo_->lastNumLsObservations(), 0 );
             cv::Mat dbg_img = vo_->get_debug_image();
+
+            std::cout<<"============Test 3========="<<std::endl ;
+
             if( !dbg_img.empty() )
                 scene.setImage( dbg_img );
             else
                 scene.setImage("./empty_img.png");
+
+            std::cout<<"============Test 4========="<<std::endl ;
 
             // introduce 3d features to the scene
             vector< Matrix<double,3,1> > points3d;
@@ -468,6 +477,8 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
                 if((*it)->feat3D != NULL)
                    points3d.push_back( (*it)->feat3D->pos_ );
             scene.setPointsSVO(points3d);
+
+            std::cout<<"============Test 5========="<<std::endl ;
 
             // introduce 3d line segments to the scene
             vector< Matrix<double,6,1> > lines3d;
@@ -482,8 +493,12 @@ int BenchmarkNode::runFromFolder(vk::PinholeCamera* cam_, svo_options opts)
             }
             scene.setLinesSVO(lines3d);
 
+            std::cout<<"============Test 6========="<<std::endl ;
+
             // update scene
             scene.updateScene();
+
+            std::cout<<"============Test 7========="<<std::endl ;
 
         }
         frame_counter++;
@@ -825,6 +840,7 @@ int main(int argc, char** argv)
     }
 
     printf("BenchmarkNode finished.\n");
+    printf("Done") ;
     return 0;
 
 }
